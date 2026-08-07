@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { Pool } from 'pg';
+import { User, CreateUserDto, UpdateUserDto } from '@shared/types';
 
 const app = express();
 app.use(cors());
@@ -12,16 +13,10 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL
 });
 
-interface User {
-  id?: number;
-  name: string;
-  email: string;
-}
-
 // 1. READ (一覧取得)
-app.get('/api/users', async (req: Request, res: Response) => {
+app.get('/api/users', async (req: Request, res: Response<User[] | { error: string }>) => {
   try {
-    const result = await pool.query('SELECT * FROM users ORDER BY id ASC');
+    const result = await pool.query<User>('SELECT * FROM users ORDER BY id ASC');
     res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: 'DB Error' });
@@ -29,10 +24,11 @@ app.get('/api/users', async (req: Request, res: Response) => {
 });
 
 // 2. CREATE (追加)
-app.post('/api/users', async (req: Request, res: Response) => {
-  const { name, email }: User = req.body;
+app.post('/api/users', async (req: Request<{}, {}, CreateUserDto>, res: Response<User | { error: string }>) => {
+  // CREATE時は id がまだ存在しないため CreateUserDto を使用
+  const { name, email } = req.body;
   try {
-    const result = await pool.query(
+    const result = await pool.query<User>(
       'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
       [name, email]
     );
@@ -43,11 +39,11 @@ app.post('/api/users', async (req: Request, res: Response) => {
 });
 
 // 3. UPDATE (更新)
-app.put('/api/users/:id', async (req: Request, res: Response) => {
+app.put('/api/users/:id', async (req: Request<{ id: string }, {}, UpdateUserDto>, res: Response<User | { error: string }>) => {
   const id = parseInt(req.params.id);
-  const { name, email }: User = req.body;
+  const { name, email } = req.body;
   try {
-    const result = await pool.query(
+    const result = await pool.query<User>(
       'UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *',
       [name, email, id]
     );
@@ -58,7 +54,7 @@ app.put('/api/users/:id', async (req: Request, res: Response) => {
 });
 
 // 4. DELETE (削除)
-app.delete('/api/users/:id', async (req: Request, res: Response) => {
+app.delete('/api/users/:id', async (req: Request<{ id: string }>, res: Response) => {
   const id = parseInt(req.params.id);
   try {
     await pool.query('DELETE FROM users WHERE id = $1', [id]);

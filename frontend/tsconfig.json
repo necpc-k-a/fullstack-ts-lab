@@ -4,7 +4,10 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
-    "strict": true
+    "strict": true,
+    "paths": {
+      "@shared/*": ["../shared/*"]
+    }
   },
   "include": ["src"]
 }

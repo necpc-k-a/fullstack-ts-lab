@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-
-// DBから取得するユーザーデータの型定義
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { User, CreateUserDto } from '@shared/types'; // 共通型のインポート
 
 export default function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
 
-  // バックエンドAPIのURL (Docker Compose上のExpressサーバー)
-  const API_URL = 'http://localhost:8081/api/users';
+  // バックエンドAPIのURL
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
+  const API_URL = `${API_BASE_URL}/api/users`;
 
   // 1. READ: ユーザー一覧の取得
   const fetchUsers = async () => {
@@ -35,11 +30,13 @@ export default function App() {
     e.preventDefault();
     if (!name || !email) return;
 
+    const newUser: CreateUserDto = { name, email };
+
     try {
       await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email }),
+        body: JSON.stringify(newUser),
       });
 
       setName('');
