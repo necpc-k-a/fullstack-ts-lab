@@ -13,7 +13,7 @@ app.use(express.json());
 app.get('/api/users', async (req: Request, res: Response<User[] | { error: string }>) => {
   try {
     const users = await prisma.user.findMany({
-        orderBy: { id: 'asc' },
+      orderBy: { id: 'asc' },
     });
     res.json(users);
   } catch (err) {
@@ -28,7 +28,7 @@ app.post('/api/users', async (req: Request<{}, {}, CreateUserDto>, res: Response
   const { name, email } = req.body;
   try {
     const newUser = await prisma.user.create({
-        data: { name, email },
+      data: { name, email },
     });
     res.status(201).json(newUser);
   } catch (err) {
@@ -43,8 +43,8 @@ app.put('/api/users/:id', async (req: Request<{ id: string }, {}, UpdateUserDto>
   const { name, email } = req.body;
   try {
     const updateUser = await prisma.user.update({
-        where: { id },
-        data: { name, email },
+      where: { id },
+      data: { name, email },
     });
     res.json(updateUser);
   } catch (err) {
@@ -58,7 +58,7 @@ app.delete('/api/users/:id', async (req: Request<{ id: string }>, res: Response)
   const id = parseInt(req.params.id);
   try {
     await prisma.user.delete({
-        where: { id },
+      where: { id },
     });
     res.status(204).send();
   } catch (err) {
