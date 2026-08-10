@@ -2,11 +2,12 @@
 
 TypeScriptを中心に、フロントエンド（React）、バックエンド（Express）、データベース（PostgreSQL）で構築されたフルスタックWebアプリケーションです。
 ORMに Prisma を採用し、フロント・バックエンド間で共通の型定義（shared）を共有する構成をとっています。
+フロントエンドのスタイリングには Tailwind CSS を採用し、UIデザインの効率化を図っています。
 Docker環境で動作するため、ホストOS（Windows等）の環境を汚さずに開発・実行が可能です。
 
 ## 🛠 技術スタック
 
-* **フロントエンド**: React 18, TypeScript, Vite
+* **フロントエンド**: React 18, TypeScript, Vite, Tailwind CSS, PostCSS, Autoprefixer
 * **バックエンド**: Node.js, Express, TypeScript, Express-CORS, Prisma (ORM)
 * **データベース**: PostgreSQL 15
 * **インフラ / 実行環境**: Docker, Docker Compose
@@ -34,11 +35,14 @@ fullstack-ts-lab/
 │   │   ├── hooks/            # カスタムフック
 │   │   │   └── useUsers.ts   # API通信・状態管理ロジック
 │   │   ├── App.tsx           # ルートコンポーネント (全体のレイアウト配置)
+│   │   ├── index.css         # Tailwindディレクティブ定義
 │   │   ├── main.tsx          # レンダリングエントリーポイント
 │   │   └── vite-env.d.ts     # Vite環境変数型定義
 │   ├── Dockerfile
 │   ├── index.html            # アプリケーションのベースHTMLファイル
 │   ├── package.json
+│   ├── postcss.config.js     # PostCSSの設定ファイル (Tailwindプラグイン読み込み)
+│   ├── tailwind.config.js    # Tailwind CSSの設定ファイル (パージパス指定など)
 │   ├── tsconfig.json
 │   └── vite.config.ts        # Viteの設定ファイル（ビルド・開発サーバー設定など）
 ├── shared/                   # フロント/バックエンド共通型定義
@@ -98,3 +102,4 @@ docker-compose down -v
 - DB初期化: db/init.sql に定義されたスクリプトは、初回コンテナ立ち上げ時（データボリュームが存在しない場合）に自動で実行されます。
 - ORM (Prisma): バックエンドのデータ操作は backend/prisma/schema.prisma で定義されたスキーマを基に Prisma Client を介して行われます。
 - 共通型定義: shared/types.ts を通じて、APIの入出力データ型をフロントエンド・バックエンド双方で共有しています。
+- スタイリング: Tailwind CSS を採用しています。設定の変更は frontend/tailwind.config.js を、カスタムスタイルの定義は frontend/src/index.css を編集します。

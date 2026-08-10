@@ -8,20 +8,22 @@ export default function App() {
   const { users, loading, error, addUser, deleteUser } = useUsers();
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+    <div className="min-h-screen bg-slate-100 text-slate-900">
       <Header title="ユーザー管理システム（CRUD）" />
-      {error && (
-        <div style={{ color: 'red', marginBottom: '15px' }}>
-          エラー: {error}
-        </div>
-      )}
-      <UserForm onAddUser={addUser} />
+      <main className="max-w-4xl mx-auto px-4 pb-12">
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 border border-red-200 text-red-700 rounded-md text-sm">
+            エラー: {error}
+          </div>
+        )}
+        <UserForm onAddUser={addUser} />
 
-      {loading ? (
-        <p>読み込み中...</p>
-      ) : (
-        <UserList users={users} onDeleteUser={deleteUser} />
-      )}
+        {loading ? (
+          <div className="text-center py-8 text-slate-500">読み込み中...</div>
+        ) : (
+          <UserList users={users} onDeleteUser={deleteUser} />
+        )}
+      </main>
     </div>
   );
 }
