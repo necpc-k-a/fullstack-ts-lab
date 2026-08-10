@@ -1,14 +1,16 @@
 import { Header } from './components/Header';
 import { UserForm } from './components/UserForm';
 import { UserList } from './components/UserList';
+import { Toast } from './components/Toast';
 import { useUsers } from './hooks/useUsers';
 
 export default function App() {
 
-  const { users, loading, error, addUser, deleteUser } = useUsers();
+  const { users, loading, error, toast, hideToast, addUser, deleteUser } = useUsers();
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
+      <Toast message={toast} onClose={hideToast} />
       <Header title="ユーザー管理システム（CRUD）" />
       <main className="max-w-4xl mx-auto px-4 pb-12">
         {error && (

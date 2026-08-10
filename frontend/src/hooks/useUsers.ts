@@ -5,6 +5,17 @@ export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  // 処理結果通知用の状態
+  const [toast, setToast] = useState<string | null>(null);
+
+  // 処理結果通知表示
+  const showToast = (message: String) => {
+    setToast(message);
+  };
+  // 処理結果通知非表示
+  const hideToast = () => {
+    setToast(null);
+  }
 
   // バックエンドAPIのURL
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
@@ -41,10 +52,15 @@ export const useUsers = () => {
         body: JSON.stringify(newUser),
       });
       if (!res.ok) throw new Error('ユーザーの追加に失敗しました');
+      const resNewUser = await res.json();
+      setUsers((prev) => [...prev, newUser]);
+      setError(null);
       await fetchUsers(); // 一覧を再取得して画面更新
+      showToast(`「${resNewUser.name}」さんを追加しました`);
     } catch (err) {
       setError(err instanceof Error ? err.message : '追加時にエラーが発生しました');
       console.error(err);
+      throw err;
     }
   };
 
@@ -53,7 +69,10 @@ export const useUsers = () => {
     try {
       const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('ユーザーの削除に失敗しました');
+      setUsers((prev) => prev.filter((user) => user.id !== id));
+      setError(null);
       await fetchUsers(); // 一覧を再取得して画面更新
+      showToast(`ユーザーを削除しました`);
     } catch (err) {
       setError(err instanceof Error ? err.message : '削除時にエラーが発生しました');
       console.error(err);
@@ -64,6 +83,8 @@ export const useUsers = () => {
     users,
     loading,
     error,
+    toast,
+    hideToast,
     addUser,
     deleteUser,
     refetchUsers: fetchUsers,

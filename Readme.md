@@ -30,10 +30,11 @@ fullstack-ts-lab/
 │   ├── src/
 │   │   ├── components/       # UIコンポーネント
 │   │   │   ├── Header.tsx    # ヘッダー表示
+│   │   │   ├── Toast.tsx     # 処理結果通知用トースト表示
 │   │   │   ├── UserForm.tsx  # ユーザー追加フォーム
 │   │   │   └── UserList.tsx  # ユーザー一覧・削除表示
 │   │   ├── hooks/            # カスタムフック
-│   │   │   └── useUsers.ts   # API通信・状態管理ロジック
+│   │   │   └── useUsers.ts   # API通信・状態管理・トースト通知ロジック
 │   │   ├── App.tsx           # ルートコンポーネント (全体のレイアウト配置)
 │   │   ├── index.css         # Tailwindディレクティブ定義
 │   │   ├── main.tsx          # レンダリングエントリーポイント
@@ -103,3 +104,4 @@ docker-compose down -v
 - ORM (Prisma): バックエンドのデータ操作は backend/prisma/schema.prisma で定義されたスキーマを基に Prisma Client を介して行われます。
 - 共通型定義: shared/types.ts を通じて、APIの入出力データ型をフロントエンド・バックエンド双方で共有しています。
 - スタイリング: Tailwind CSS を採用しています。設定の変更は frontend/tailwind.config.js を、カスタムスタイルの定義は frontend/src/index.css を編集します。
+- バリデーション & UX: フォーム入力にはReact内でのリアルタイムバリデーション（noValidate 属性によるブラウザデフォルト機能のオフ制御含む）と、操作結果を知らせる画面中央上部のトースト通知機能を実装しています。
