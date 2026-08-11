@@ -26,6 +26,12 @@ fullstack-ts-lab/
 │   └── tsconfig.json
 ├── db/                       # データベース設定
 │   └── init.sql              # 初期化用SQLスクリプト
+├── docs/                     # 各種設計書・仕様書ドキュメント
+│   ├── 01_system-architecture.md  # システム構成書
+│   ├── 02_requirements.md         # 要件定義書
+│   ├── 03_screen-specification.md # 画面仕様書
+│   ├── 04_api-specification.md    # API詳細仕様書
+│   └── 05_database-design.md      # データベース設計書
 ├── frontend/                 # フロントエンド (React / TypeScript / Vite)
 │   ├── src/
 │   │   ├── components/       # UIコンポーネント
@@ -97,6 +103,16 @@ docker-compose down
 # DBのボリュームも含めて完全に削除
 docker-compose down -v
 ```
+
+## ドキュメント (設計書・仕様書)
+
+詳細な設計情報および仕様については docs/ ディレクトリ内の各ドキュメントを参照してください。
+
+- システム構成書 (docs/01_system-architecture.md): システム構成・コンテナ仕様・動作環境
+- 要件定義書 (docs/02_requirements.md): 機能要件・非機能要件
+- 画面仕様書 (docs/03_screen-specification.md): UIコンポーネント構成・バリデーション・レスポンシブ仕様
+- API詳細仕様書 (docs/04_api-specification.md): RESTful APIエンドポイント・リクエスト/レスポンス仕様
+- データベース設計書 (docs/05_database-design.md): テーブル定義・Prismaスキーマ仕様
 
 ## 開発時のメモ
 
