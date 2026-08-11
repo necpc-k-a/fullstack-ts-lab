@@ -6,11 +6,15 @@ import { useUsers } from './hooks/useUsers';
 
 export default function App() {
 
-  const { users, loading, error, toast, hideToast, addUser, deleteUser } = useUsers();
+  const { users, loading, error, toast, hideToast, addUser, deleteUser, updateUser } = useUsers();
 
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900">
-      <Toast message={toast} onClose={hideToast} />
+      <Toast
+        message={toast?.message ?? null}
+        type={toast?.type}
+        onClose={hideToast}
+      />
       <Header title="ユーザー管理システム（CRUD）" />
       <main className="max-w-4xl mx-auto px-4 pb-12">
         {error && (
@@ -23,7 +27,7 @@ export default function App() {
         {loading ? (
           <div className="text-center py-8 text-slate-500">読み込み中...</div>
         ) : (
-          <UserList users={users} onDeleteUser={deleteUser} />
+          <UserList users={users} onDeleteUser={deleteUser} onUpdateUser={updateUser} />
         )}
       </main>
     </div>
