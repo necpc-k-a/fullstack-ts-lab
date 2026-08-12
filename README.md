@@ -52,6 +52,10 @@ fullstack-ts-lab/
 │   ├── tailwind.config.js    # Tailwind CSSの設定ファイル (パージパス指定など)
 │   ├── tsconfig.json
 │   └── vite.config.ts        # Viteの設定ファイル（ビルド・開発サーバー設定など）
+├── generate-ai/              # 生成AI連携用ツール・ドキュメント
+│   ├── build-context.bat     # プロジェクト全ファイルを1つに結合するバッチ
+│   ├── PROJECT_ALL_IN_ONE.md # 自動生成されたAI知識用統合ファイル
+│   └── README.md             # AI連携フォルダの概要・運用ガイド
 ├── shared/                   # フロント/バックエンド共通型定義
 │   └── types.ts              # DTOやエンティティの共通型定義
 ├── .env                      # 環境変数ファイル
@@ -113,6 +117,7 @@ docker-compose down -v
 - 画面仕様書 (docs/03_screen-specification.md): UIコンポーネント構成・バリデーション・レスポンシブ仕様
 - API詳細仕様書 (docs/04_api-specification.md): RESTful APIエンドポイント・リクエスト/レスポンス仕様
 - データベース設計書 (docs/05_database-design.md): テーブル定義・Prismaスキーマ仕様
+- AI連携ガイド (generate-ai/README.md): 生成AI（Gemini等）用の文脈統合バッチの利用手順
 
 ## 開発時のメモ
 
@@ -121,3 +126,4 @@ docker-compose down -v
 - 共通型定義: shared/types.ts を通じて、APIの入出力データ型をフロントエンド・バックエンド双方で共有しています。
 - スタイリング: Tailwind CSS を採用しています。設定の変更は frontend/tailwind.config.js を、カスタムスタイルの定義は frontend/src/index.css を編集します。
 - エラーハンドリング & UX: フォーム入力時のリアルタイムバリデーションに加え、追加・更新・削除などの成功時やエラー時には画面固定のトースト通知（成功：暗色/緑、エラー：赤色）を表示し、視認性を向上させています。
+- AI連携: generate-ai/build-context.bat を実行することで、プロジェクト内の全設計書・コードを1ファイルに結合し、Gemini等のAIツールに容易に知識登録（Knowledge）できます。

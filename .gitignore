@@ -29,3 +29,6 @@ pgdata/
 
 # Miscellaneous
 *.log
+
+# AI Context output
+generate-ai/PROJECT_ALL_IN_ONE.md
